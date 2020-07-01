@@ -113,6 +113,7 @@ MonoBehaviour:
   validPlacements:
   - Building/Block
   resizable: 0
+  rotateable: 1
 --- !u!114 &8780310335744544058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resizeSensitivity: 5
+  mouse1Mode: 0
 --- !u!1 &6200477554794874188
 GameObject:
   m_ObjectHideFlags: 0

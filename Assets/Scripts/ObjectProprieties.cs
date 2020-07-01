@@ -5,5 +5,5 @@ using UnityEngine;
 public class ObjectProprieties : MonoBehaviour
 {
     public List<string> validPlacements;
-    public bool resizable;
+    public bool resizable, rotateable;
 }

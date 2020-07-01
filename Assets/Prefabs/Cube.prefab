@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resizeSensitivity: 5
+  mouse1Mode: 0
 --- !u!54 &4282403193600321088
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -143,3 +144,4 @@ MonoBehaviour:
   - Building/Base
   - Building/Block
   resizable: 1
+  rotateable: 1

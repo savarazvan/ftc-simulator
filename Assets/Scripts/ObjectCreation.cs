@@ -13,7 +13,10 @@ public class ObjectCreation : MonoBehaviour
     public float resizeSensitivity = 5f;
     private Material transparent, initialMat;
     private Color initialCol;
-    private bool resizable;
+    private bool resizable, rotateable;
+
+    public short mouse1Mode;
+    private const short MOUSE1_NONE = -1, MOUSE1_RESIZE = 1, MOUSE1_ROTATE = 2;
     // Start is called before the first frame update
     void Awake()
     {
@@ -28,17 +31,30 @@ public class ObjectCreation : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         validPlacements = GetComponent<ObjectProprieties>().validPlacements;
         resizable = GetComponent<ObjectProprieties>().resizable;
+        rotateable = GetComponent<ObjectProprieties>().rotateable;
+
+        if (resizable) mouse1Mode = MOUSE1_RESIZE;
+        else if (rotateable) mouse1Mode = MOUSE1_ROTATE;
+        else mouse1Mode = MOUSE1_NONE;
+
     }
 
-    // Update is called once per frame
+    private void LateUpdate()
+    {
+        if (Input.mouseScrollDelta.y < 0 && resizable)
+            mouse1Mode = MOUSE1_RESIZE;
+        else if (Input.mouseScrollDelta.y > 0 && rotateable)
+            mouse1Mode = MOUSE1_ROTATE;
+    }
+
     void Update()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         if (Physics.Raycast(ray, out hit))
         {
-            print(hit.point);
             renderer.material.SetColor("_Color", validPlacements.Contains(hit.collider.tag) ? green : red);
-            
+
             if (Input.GetMouseButtonDown(0))
             {
                 renderer.material = initialMat;
@@ -47,14 +63,15 @@ public class ObjectCreation : MonoBehaviour
                 GetComponent<Collider>().enabled = true;
                 transform.SetParent(GameObject.Find("Robot").transform);
 
-                if(gameObject.tag=="Building/Wheel")
-                    {
-                        HingeJoint hj = GetComponentInChildren<HingeJoint>();
-                        hj.connectedBody = hit.rigidbody;
-                        hj.connectedAnchor = hit.transform.InverseTransformPoint(transform.position);
-                        Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z*1.5f);
-                        hj.connectedAnchor=fixedPosition;
-                    }
+                //Special wheel condition
+                if (gameObject.tag == "Building/Wheel")
+                {
+                    HingeJoint hj = GetComponentInChildren<HingeJoint>();
+                    hj.connectedBody = hit.rigidbody;
+                    hj.connectedAnchor = hit.transform.InverseTransformPoint(transform.position);
+                    Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z * 1.5f);
+                    hj.connectedAnchor = fixedPosition;
+                }
 
                 return;
             }
@@ -63,11 +80,34 @@ public class ObjectCreation : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                if(!resizable) return;
-                Vector3 newScale = new Vector3(0, 0, 0);
-                if (Input.GetAxis("Mouse X") != 0) newScale.x = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse X")) * Time.deltaTime;
-                if (Input.GetAxis("Mouse Y") != 0) newScale.z = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse Y")) * Time.deltaTime;
-                transform.localScale += newScale;
+
+                switch (mouse1Mode)
+                {
+                    case MOUSE1_RESIZE:
+                        {
+                            Vector3 newScale = new Vector3(0, 0, 0);
+                            if (Input.GetAxis("Mouse X") != 0) newScale.x = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse X")) * Time.deltaTime;
+                            if (Input.GetAxis("Mouse Y") != 0) newScale.z = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse Y")) * Time.deltaTime;
+                            transform.localScale += newScale;
+                            return;
+                        }
+                    case MOUSE1_ROTATE:
+                        {
+                            if (Input.GetAxis("Mouse X") != 0)
+                            {
+                                transform.Rotate(new Vector3(90 * Mathf.Sign(Input.GetAxis("Mouse X")), 0, 0));
+                                break;
+                            }
+
+                            if (Input.GetAxis("Mouse Y") != 0)
+                            {
+                                transform.Rotate(new Vector3(0, 90 * Mathf.Sign(Input.GetAxis("Mouse X")), 0));
+                                break;
+                            }
+                            break;
+                        }
+                    default: break;
+                }
             }
 
             else if (Input.GetMouseButtonUp(1))
@@ -76,10 +116,11 @@ public class ObjectCreation : MonoBehaviour
                 Cursor.visible = true;
             }
 
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
                 Destroy(gameObject);
 
-            else transform.position = hit.point + new Vector3(0, transform.localScale.y / 2, 0);
+            else transform.position = hit.point + Vector3.Scale(transform.up, transform.localScale)/2;
+            print(transform.up);
         }
 
     }
