@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Motor : MonoBehaviour
 {
-    private Transform axle;
+    private Rigidbody rb;
     public float power;
     private void Start()
     {
-        axle = GetComponentsInChildren<Transform>()[1];
+        rb = GetComponent<Rigidbody>();
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow)) power+=1;
-        if(Input.GetKeyDown(KeyCode.LeftArrow)) power-=1;
-        if(power!=0)
-            axle.eulerAngles+=new Vector3(power,0,0) * Time.deltaTime;
+        if(Input.GetKeyDown(KeyCode.RightArrow)) power+=10;
+        if(Input.GetKeyDown(KeyCode.LeftArrow)) power-=10;
+        rb.AddTorque(transform.up * power * Time.deltaTime);
     }
     public void setPower(float power)
     {

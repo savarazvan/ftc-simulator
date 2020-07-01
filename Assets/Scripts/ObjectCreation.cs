@@ -36,6 +36,7 @@ public class ObjectCreation : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
+            print(hit.point);
             renderer.material.SetColor("_Color", validPlacements.Contains(hit.collider.tag) ? green : red);
             
             if (Input.GetMouseButtonDown(0))
@@ -44,14 +45,17 @@ public class ObjectCreation : MonoBehaviour
                 renderer.material.SetColor("_Color", initialCol);
                 Destroy(GetComponent<ObjectCreation>());
                 GetComponent<Collider>().enabled = true;
+                transform.SetParent(GameObject.Find("Robot").transform);
 
-                //Special wheel exception
                 if(gameObject.tag=="Building/Wheel")
-                {
-                            
-                }
+                    {
+                        HingeJoint hj = GetComponentInChildren<HingeJoint>();
+                        hj.connectedBody = hit.rigidbody;
+                        hj.connectedAnchor = hit.transform.InverseTransformPoint(transform.position);
+                        Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z*1.5f);
+                        hj.connectedAnchor=fixedPosition;
+                    }
 
-                transform.SetParent(hit.transform);
                 return;
             }
 
