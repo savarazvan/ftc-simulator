@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Scene
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 678, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 14
+  controlID: 24
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 15
+  controlID: 25
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
-  controlID: 16
+  controlID: 26
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -396,23 +396,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 9888ffff
-      m_LastClickedID: -30568
+      m_SelectedIDs: 7ce1ffff
+      m_LastClickedID: -7812
       m_ExpandedIDs: 5cfbffff8036000096360000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Cube(Clone)
+        m_OriginalName: Cube(Clone)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -5510
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -458,9 +458,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.087914445, y: 6.0970826, z: -1.7183225}
+    m_Target: {x: 0.6362478, y: 6.1468863, z: 1.2899812}
     speed: 2
-    m_Value: {x: 0.08791444, y: 6.0970826, z: -1.7183223}
+    m_Value: {x: 0.6362478, y: 6.1468863, z: 1.2899812}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -507,13 +507,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.048916884, y: -0.17313369, z: 0.009337338, w: -0.98384935}
+    m_Target: {x: -0.03858472, y: 0.94807047, z: -0.1230691, w: -0.29150957}
     speed: 2
-    m_Value: {x: -0.048892684, y: -0.17457306, z: 0.009408751, w: -0.9833846}
+    m_Value: {x: -0.03770225, y: 0.94822204, z: -0.12019706, w: -0.2915583}
   m_Size:
-    m_Target: 1.0015836
+    m_Target: 0.7391162
     speed: 2
-    m_Value: 1.0015836
+    m_Value: 0.7391162
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -639,8 +639,8 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 48370000
-    m_LastClickedID: 14152
+    m_SelectedIDs: 44370000
+    m_LastClickedID: 14148
     m_ExpandedIDs: 00000000383700003a3700003c37000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0

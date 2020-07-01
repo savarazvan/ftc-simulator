@@ -15,8 +15,7 @@ public class ObjectCreation : MonoBehaviour
     private Color initialCol;
     private bool resizable, rotateable;
 
-    public short mouse1Mode;
-    private const short MOUSE1_NONE = -1, MOUSE1_RESIZE = 1, MOUSE1_ROTATE = 2;
+    private Vector3 rotateVector = new Vector3(90,0,0);
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,19 +32,8 @@ public class ObjectCreation : MonoBehaviour
         resizable = GetComponent<ObjectProprieties>().resizable;
         rotateable = GetComponent<ObjectProprieties>().rotateable;
 
-        if (resizable) mouse1Mode = MOUSE1_RESIZE;
-        else if (rotateable) mouse1Mode = MOUSE1_ROTATE;
-        else mouse1Mode = MOUSE1_NONE;
-
     }
 
-    private void LateUpdate()
-    {
-        if (Input.mouseScrollDelta.y < 0 && resizable)
-            mouse1Mode = MOUSE1_RESIZE;
-        else if (Input.mouseScrollDelta.y > 0 && rotateable)
-            mouse1Mode = MOUSE1_ROTATE;
-    }
 
     void Update()
     {
@@ -53,6 +41,11 @@ public class ObjectCreation : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
+            float yOffset=0;
+            if(transform.up.x !=0) yOffset = transform.localScale.x/2;
+            else if(transform.up.y !=0) yOffset = transform.localScale.y/2; 
+            else yOffset = transform.localScale.z/2;
+
             renderer.material.SetColor("_Color", validPlacements.Contains(hit.collider.tag) ? green : red);
 
             if (Input.GetMouseButtonDown(0))
@@ -62,7 +55,6 @@ public class ObjectCreation : MonoBehaviour
                 Destroy(GetComponent<ObjectCreation>());
                 GetComponent<Collider>().enabled = true;
                 transform.SetParent(GameObject.Find("Robot").transform);
-
                 //Special wheel condition
                 if (gameObject.tag == "Building/Wheel")
                 {
@@ -81,32 +73,12 @@ public class ObjectCreation : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
 
-                switch (mouse1Mode)
+                if (resizable)
                 {
-                    case MOUSE1_RESIZE:
-                        {
-                            Vector3 newScale = new Vector3(0, 0, 0);
-                            if (Input.GetAxis("Mouse X") != 0) newScale.x = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse X")) * Time.deltaTime;
-                            if (Input.GetAxis("Mouse Y") != 0) newScale.z = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse Y")) * Time.deltaTime;
-                            transform.localScale += newScale;
-                            return;
-                        }
-                    case MOUSE1_ROTATE:
-                        {
-                            if (Input.GetAxis("Mouse X") != 0)
-                            {
-                                transform.Rotate(new Vector3(90 * Mathf.Sign(Input.GetAxis("Mouse X")), 0, 0));
-                                break;
-                            }
-
-                            if (Input.GetAxis("Mouse Y") != 0)
-                            {
-                                transform.Rotate(new Vector3(0, 90 * Mathf.Sign(Input.GetAxis("Mouse X")), 0));
-                                break;
-                            }
-                            break;
-                        }
-                    default: break;
+                    Vector3 newScale = new Vector3(0, 0, 0);
+                    if (Input.GetAxis("Mouse X") != 0) newScale.x = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse X")) * Time.deltaTime;
+                    if (Input.GetAxis("Mouse Y") != 0) newScale.z = resizeSensitivity * Mathf.Sign(Input.GetAxis("Mouse Y")) * Time.deltaTime;
+                    transform.localScale += newScale;
                 }
             }
 
@@ -116,10 +88,20 @@ public class ObjectCreation : MonoBehaviour
                 Cursor.visible = true;
             }
 
+            if (Input.mouseScrollDelta.y > 0 && rotateable)
+            {
+                rotateVector = new Vector3(rotateVector.z, rotateVector.x, rotateVector.y);
+                transform.eulerAngles = rotateVector;
+            }
+            else if (Input.mouseScrollDelta.y < 0 && rotateable)
+            {
+                rotateVector = new Vector3(rotateVector.y, rotateVector.z, rotateVector.x);
+                transform.eulerAngles = rotateVector;
+            }
+
             if (Input.GetKeyDown(KeyCode.Escape))
                 Destroy(gameObject);
-
-            else transform.position = hit.point + Vector3.Scale(transform.up, transform.localScale)/2;
+            transform.position = new Vector3(hit.point.x, hit.point.y+yOffset, hit.point.z);
             print(transform.up);
         }
 
