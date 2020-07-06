@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 298828342}
   - component: {fileID: 298828341}
   - component: {fileID: 298828343}
+  - component: {fileID: 298828345}
   m_Layer: 0
   m_Name: Base
   m_TagString: Building/Base
@@ -505,6 +506,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &298828345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298828340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5bd93baeb78d141ba9a55207d21ef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block: {fileID: 4282403193600321089, guid: 2cbe58cda49914949a37175bca2b4f58, type: 3}
+  motor: {fileID: 1643424194673787284, guid: 078bafd53dd96c7478b0b41d81e8ac73, type: 3}
 --- !u!1 &421685921
 GameObject:
   m_ObjectHideFlags: 0

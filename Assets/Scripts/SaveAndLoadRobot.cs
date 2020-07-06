@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Collections.Generic;
 
 public class SaveAndLoadRobot : MonoBehaviour
 {
@@ -8,47 +9,56 @@ public class SaveAndLoadRobot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.E)) saveRobot();
     }
 
     private void saveRobot()
     {
-        string path = "Assets/Resources/robot.txt";
-        StreamWriter writer = new System.IO.StreamWriter(path, true);
         Transform robot = GameObject.Find("Robot").transform;
-        foreach(Transform component in robot)
+        AllRobotComponents allComponents = new AllRobotComponents();
+        foreach (Transform component in robot)
         {
-            switch(component.tag)
+            switch (component.tag)
             {
-                case("Building/Block"):
-                {
-                    Block block = new Block(component);
-                    var blockWriter = new System.Xml.Serialization.XmlSerializer(typeof(Block));
-                    blockWriter.Serialize(writer,block);
-                    break;
-                }
-                case("Building/Wheel"):
-                {
-                    MotorAndWheel motor = new MotorAndWheel(component);
-                    var motorWriter = new System.Xml.Serialization.XmlSerializer(typeof(MotorAndWheel));
-                    motorWriter.Serialize(writer,motor);
-                    break;
-                }
-                
+                case ("Building/Block"):
+                    {
+                        allComponents.blocks.Add(new Block(component));
+                        break;
+                    }
+                case ("Building/Wheel"):
+                    {
+                        allComponents.motors.Add(new MotorAndWheel(component));
+                        break;
+                    }
             }
         }
-        writer.WriteLine("Test");
-        writer.Close();
+        //-----------------------------------------------------------------------------
+        string path = "Assets/Resources/robot.xml";
+        var writer = new System.Xml.Serialization.XmlSerializer(typeof(AllRobotComponents));  
+        var file = new System.IO.StreamWriter(path);
+        writer.Serialize(file, allComponents);
+        file.Close();
+        print("Saved to " + path);
     }
 }
 
-public class Block : SaveAndLoadRobot
+public class AllRobotComponents
+{
+    public List<Block> blocks;
+    public List<MotorAndWheel> motors;
+    public AllRobotComponents()
+    {
+        blocks = new List<Block>();
+        motors = new List<MotorAndWheel>();
+    }
+}
+public class Block
 {
     public Vector3[] transformValues = new Vector3[3];
     public string objectName;
@@ -59,32 +69,27 @@ public class Block : SaveAndLoadRobot
         transformValues[2] = transformComponent.localScale;
         objectName = transformComponent.name;
     }
-
-    public virtual GameObject create()
+    public Block(){}
+    public Vector3 getTransform(int value)
     {
-        GameObject newBlock = block;
-        block.transform.position = transformValues[0];
-        block.transform.eulerAngles = transformValues[1];
-        block.transform.localScale = transformValues[2];
-        newBlock.name = objectName;
-        return newBlock;
+        return transformValues[value];
+    }
+
+    public string getName()
+    {
+        return objectName;
     }
 }
 
 public class MotorAndWheel : Block
 {
-    public MotorAndWheel(Transform transformComponent) : base(transformComponent) {
+    public MotorAndWheel(Transform transformComponent) : base(transformComponent)
+    {
         connectedBody = transformComponent.GetComponentInChildren<HingeJoint>().connectedBody.name;
     }
 
+    public MotorAndWheel(){}
+
     public string connectedBody;
-    public override GameObject create()
-    {
-        GameObject newMotor = motor;
-        block.transform.position = transformValues[0];
-        block.transform.eulerAngles = transformValues[1];
-        block.transform.localScale = transformValues[2];
-        newMotor.name = objectName;
-        return newMotor;
-    }
 }
+

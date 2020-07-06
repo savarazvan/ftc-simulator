@@ -46,6 +46,7 @@
      <Compile Include="Assets\Scripts\RaycasterPhysicsFix.cs" />
      <Compile Include="Assets\Scripts\SaveAndLoadRobot.cs" />
      <Compile Include="Assets\Scripts\ToolbarButton.cs" />
+     <None Include="Assets\Resources\robot.xml" />
      <None Include="Assets\Shader\ColorShader.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.0b6/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
