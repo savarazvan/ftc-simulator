@@ -44,6 +44,7 @@
      <Compile Include="Assets\Scripts\ObjectProprieties.cs" />
      <Compile Include="Assets\Scripts\Raycaster.cs" />
      <Compile Include="Assets\Scripts\RaycasterPhysicsFix.cs" />
+     <Compile Include="Assets\Scripts\SaveAndLoadRobot.cs" />
      <Compile Include="Assets\Scripts\ToolbarButton.cs" />
      <None Include="Assets\Shader\ColorShader.shader" />
     <Reference Include="UnityEngine">
