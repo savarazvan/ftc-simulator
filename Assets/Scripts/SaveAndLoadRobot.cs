@@ -6,21 +6,24 @@ using System.Collections.Generic;
 public class SaveAndLoadRobot : MonoBehaviour
 {
     public GameObject block, motor;
+    private string path;
+    Transform robot;
     // Start is called before the first frame update
     void Start()
     {
-
+        robot = GameObject.Find("Robot").transform;
+        path = "Assets/Resources/robot.xml";
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E)) saveRobot();
+        if (Input.GetKeyDown(KeyCode.E)) saveRobot();
+        if (Input.GetKeyDown(KeyCode.L)) loadRobot();
     }
 
     private void saveRobot()
     {
-        Transform robot = GameObject.Find("Robot").transform;
         AllRobotComponents allComponents = new AllRobotComponents();
         foreach (Transform component in robot)
         {
@@ -33,18 +36,66 @@ public class SaveAndLoadRobot : MonoBehaviour
                     }
                 case ("Building/Wheel"):
                     {
-                        allComponents.motors.Add(new MotorAndWheel(component));
+                        allComponents.motors.Add(new MotorAndWheel(component, 
+                            component.GetComponentInChildren<HingeJoint>().connectedAnchor));
                         break;
                     }
             }
         }
         //-----------------------------------------------------------------------------
-        string path = "Assets/Resources/robot.xml";
-        var writer = new System.Xml.Serialization.XmlSerializer(typeof(AllRobotComponents));  
+        var writer = new System.Xml.Serialization.XmlSerializer(typeof(AllRobotComponents));
         var file = new System.IO.StreamWriter(path);
         writer.Serialize(file, allComponents);
         file.Close();
         print("Saved to " + path);
+    }
+
+    private void loadRobot()
+    {
+        foreach (Transform transform in robot)
+            Destroy(transform.gameObject);
+
+        var reader = new System.Xml.Serialization.XmlSerializer(typeof(AllRobotComponents));
+        var file = new System.IO.StreamReader(path);
+        AllRobotComponents robotComponents = (AllRobotComponents)reader.Deserialize(file);
+        file.Close();
+        handleRobotCreation(robotComponents);
+        print("Loaded from " + path);
+    }
+
+    //---------------------------------------------------------------------------------------------
+
+    private void handleRobotCreation(AllRobotComponents components)
+    {
+        foreach (Block blockComp in components.blocks)
+        {
+            GameObject newBlock = Instantiate(block);
+            newBlock = handleTransformAndName(newBlock, blockComp.transformValues, blockComp.objectName);
+        }
+
+        foreach (MotorAndWheel motorComp in components.motors)
+        {
+            GameObject newMotor = Instantiate(motor);
+            newMotor = handleTransformAndName(newMotor, motorComp.transformValues, motorComp.objectName);
+
+            string connectedBody;
+            if((connectedBody=motorComp.connectedBody)==null) continue;
+
+            HingeJoint hj = newMotor.GetComponentInChildren<HingeJoint>();
+            hj.connectedBody = robot.Find(connectedBody).GetComponent<Rigidbody>();
+            hj.connectedAnchor = motorComp.connectedAnchor;
+        }
+    }
+
+    private GameObject handleTransformAndName(GameObject obj, Vector3[] transformValues, string name)
+    {
+        Destroy(obj.GetComponent<ObjectCreation>());
+        obj.transform.parent = robot;
+        obj.transform.position = transformValues[0];
+        obj.transform.eulerAngles = transformValues[1];
+        obj.transform.localScale = transformValues[2];
+        obj.name = name;
+        return obj;
     }
 }
 
@@ -69,7 +120,7 @@ public class Block
         transformValues[2] = transformComponent.localScale;
         objectName = transformComponent.name;
     }
-    public Block(){}
+    public Block() { }
     public Vector3 getTransform(int value)
     {
         return transformValues[value];
@@ -83,13 +134,18 @@ public class Block
 
 public class MotorAndWheel : Block
 {
-    public MotorAndWheel(Transform transformComponent) : base(transformComponent)
+    
+    public string connectedBody;
+    public Vector3 connectedAnchor;
+    public MotorAndWheel(Transform transformComponent, Vector3 connectedAnchor) : base(transformComponent)
     {
-        connectedBody = transformComponent.GetComponentInChildren<HingeJoint>().connectedBody.name;
+        Rigidbody body;
+        if((body = transformComponent.GetComponentInChildren<HingeJoint>().connectedBody)!=null)
+            connectedBody = body.name;
+        this.connectedAnchor = connectedAnchor;
     }
 
-    public MotorAndWheel(){}
+    public MotorAndWheel() { }
 
-    public string connectedBody;
 }
 
