@@ -36,16 +36,27 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CameraControl.cs" />
-     <Compile Include="Assets\Scripts\CombinedMouseLookAndCameraMove.cs" />
-     <Compile Include="Assets\Scripts\Grid.cs" />
-     <Compile Include="Assets\Scripts\Motor.cs" />
-     <Compile Include="Assets\Scripts\ObjectCreation.cs" />
-     <Compile Include="Assets\Scripts\ObjectProprieties.cs" />
-     <Compile Include="Assets\Scripts\Raycaster.cs" />
-     <Compile Include="Assets\Scripts\RaycasterPhysicsFix.cs" />
-     <Compile Include="Assets\Scripts\SaveAndLoadRobot.cs" />
-     <Compile Include="Assets\Scripts\ToolbarButton.cs" />
+     <Compile Include="Assets\Scripts\Build mode\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\Build mode\Motor.cs" />
+     <Compile Include="Assets\Scripts\Build mode\ObjectCreation.cs" />
+     <Compile Include="Assets\Scripts\Build mode\ObjectProprieties.cs" />
+     <Compile Include="Assets\Scripts\Build mode\SaveAndLoadRobot.cs" />
+     <Compile Include="Assets\Scripts\Build mode\ToolbarButton.cs" />
+     <Compile Include="Assets\Scripts\Live mode\CombinedMouseLookAndCameraMove.cs" />
+     <Compile Include="Assets\Scripts\Live mode\Raycaster.cs" />
+     <Compile Include="Assets\Scripts\Live mode\RaycasterPhysicsFix.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\Compiler.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\ComponentsDropdown.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\GenerateCode.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\TabSelect.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\UIDrag.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\UIDrop.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLInput\Detail\RebuildChecker.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLInput\WebGLInput.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLInput\Wrapper\IInputField.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLInput\Wrapper\WrappedInputField.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLInput\Wrapper\WrappedTMPInputField.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\WebGLSupport\WebGLWindow\WebGLWindow.cs" />
      <None Include="Assets\Resources\robot.xml" />
      <None Include="Assets\Shader\ColorShader.shader" />
     <Reference Include="UnityEngine">
