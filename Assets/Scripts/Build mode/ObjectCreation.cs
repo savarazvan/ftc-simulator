@@ -81,7 +81,7 @@ public class ObjectCreation : MonoBehaviour
             HingeJoint hj = GetComponentInChildren<HingeJoint>();
             hj.connectedBody = hit.rigidbody;
             hj.connectedAnchor = hit.transform.InverseTransformPoint(transform.position);
-            Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z * 1.5f);
+            Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z);
             hj.connectedAnchor = fixedPosition;
         }
     }

@@ -10,7 +10,6 @@ public class ComponentsDropdown : MonoBehaviour
     private Dropdown dropdown;
     private void Start()
     {
-        dropdown = GetComponent<Dropdown>();
         updateList();
     }
 
@@ -20,6 +19,7 @@ public class ComponentsDropdown : MonoBehaviour
 
     public void updateList()
     {
+        dropdown = GetComponent<Dropdown>();
         newOptions = new List<string>();
         dropdown.ClearOptions();
         dictionary = new Dictionary<int, GameObject>();

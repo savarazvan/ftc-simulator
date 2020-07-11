@@ -57,7 +57,7 @@ public class Compiler : MonoBehaviour
                         break;
                     }
 
-                case ("RobotFunction"):
+                case ("BotFunction"):
                     {
                         handleRobotFunc(child);
                         break;
@@ -248,8 +248,18 @@ public class Compiler : MonoBehaviour
                     ComponentsDropdown componentsDropdown = dropdown.GetComponent<ComponentsDropdown>();
                     GameObject selectedMotor = componentsDropdown.dictionary[dropdown.value];
                     selectedMotor.GetComponent<Motor>().setPower(value);
+
                     break;
                 }
+
+            case "Set all motors power":
+            {
+                Motor[] motors = GameObject.FindObjectsOfType<Motor>();
+                foreach(Motor motor in motors)
+                    motor.setPower(value);
+
+                break;
+            }
 
             case "Sleep":
                 {

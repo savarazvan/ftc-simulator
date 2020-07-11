@@ -11,5 +11,6 @@ public class Motor : MonoBehaviour
         var motor = hj.motor;
         motor.force = power;
         motor.targetVelocity = power;
+        hj.motor=motor;
     }
 }

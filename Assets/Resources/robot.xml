@@ -4,9 +4,9 @@
     <Block>
       <transformValues>
         <Vector3>
-          <x>-0.0169899128</x>
+          <x>0.0415377021</x>
           <y>5.26489353</y>
-          <z>-0.367881536</z>
+          <z>-0.187929288</z>
         </Vector3>
         <Vector3>
           <x>-0</x>
@@ -14,9 +14,9 @@
           <z>0</z>
         </Vector3>
         <Vector3>
-          <x>0.734521747</x>
+          <x>0.549696565</x>
           <y>0.07188032</y>
-          <z>0.438457668</z>
+          <z>0.5430819</z>
         </Vector3>
       </transformValues>
       <objectName>Cube(Clone)</objectName>
@@ -26,9 +26,9 @@
     <MotorAndWheel>
       <transformValues>
         <Vector3>
-          <x>-0.9571829</x>
-          <y>5.251052</y>
-          <z>0.289804876</z>
+          <x>-0.683069766</x>
+          <y>5.237115</y>
+          <z>-1.002552</z>
         </Vector3>
         <Vector3>
           <x>-0</x>
@@ -38,15 +38,93 @@
         <Vector3>
           <x>0.0133333337</x>
           <y>0.0287521239</y>
-          <z>0.06666668</z>
+          <z>0.00333333341</z>
         </Vector3>
       </transformValues>
       <objectName>Motor(Clone)</objectName>
       <connectedBody>Cube(Clone)</connectedBody>
       <connectedAnchor>
-        <x>-0.426669061</x>
-        <y>-0.09425833</y>
-        <z>0.7499999</z>
+        <x>-0.439398468</x>
+        <y>-0.189166784</y>
+        <z>-0.5</z>
+      </connectedAnchor>
+    </MotorAndWheel>
+    <MotorAndWheel>
+      <transformValues>
+        <Vector3>
+          <x>0.776744664</x>
+          <y>5.26645565</y>
+          <z>-1.002552</z>
+        </Vector3>
+        <Vector3>
+          <x>-0</x>
+          <y>0</y>
+          <z>0</z>
+        </Vector3>
+        <Vector3>
+          <x>0.0133333337</x>
+          <y>0.0287521239</y>
+          <z>0.00333333341</z>
+        </Vector3>
+      </transformValues>
+      <objectName>Motor(Clone)</objectName>
+      <connectedBody>Cube(Clone)</connectedBody>
+      <connectedAnchor>
+        <x>0.445825934</x>
+        <y>0.0106380712</y>
+        <z>-0.5</z>
+      </connectedAnchor>
+    </MotorAndWheel>
+    <MotorAndWheel>
+      <transformValues>
+        <Vector3>
+          <x>-0.691266954</x>
+          <y>5.26814175</y>
+          <z>0.6266935</z>
+        </Vector3>
+        <Vector3>
+          <x>-0</x>
+          <y>0</y>
+          <z>0</z>
+        </Vector3>
+        <Vector3>
+          <x>0.0133333337</x>
+          <y>0.0287521239</y>
+          <z>0.00333333341</z>
+        </Vector3>
+      </transformValues>
+      <objectName>Motor(Clone)</objectName>
+      <connectedBody>Cube(Clone)</connectedBody>
+      <connectedAnchor>
+        <x>-0.4443692</x>
+        <y>0.0221194588</y>
+        <z>0.5</z>
+      </connectedAnchor>
+    </MotorAndWheel>
+    <MotorAndWheel>
+      <transformValues>
+        <Vector3>
+          <x>0.7479863</x>
+          <y>5.25266838</y>
+          <z>0.6266935</z>
+        </Vector3>
+        <Vector3>
+          <x>-0</x>
+          <y>0</y>
+          <z>0</z>
+        </Vector3>
+        <Vector3>
+          <x>0.0133333337</x>
+          <y>0.0287521239</y>
+          <z>0.00333333341</z>
+        </Vector3>
+      </transformValues>
+      <objectName>Motor(Clone)</objectName>
+      <connectedBody>Cube(Clone)</connectedBody>
+      <connectedAnchor>
+        <x>0.428387016</x>
+        <y>-0.08325043</y>
+        <z>0.5</z>
       </connectedAnchor>
     </MotorAndWheel>
   </motors>
