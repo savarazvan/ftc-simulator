@@ -9,6 +9,14 @@ TagManager:
   - Building/Motor
   - Building/Axle
   - Building/Wheel
+  - BotFunction
+  - Operator
+  - Condition
+  - Loop
+  - Variable
+  - Fence
+  - Building/ServoBody
+  - Building/Servo
   layers:
   - Default
   - TransparentFX

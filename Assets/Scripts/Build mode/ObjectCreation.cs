@@ -46,7 +46,7 @@ public class ObjectCreation : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && renderer.material.GetColor("_Color") == green)
         {
-            placeObject();
+            placeObject(hit.collider.gameObject);
             return;
         }
 
@@ -68,7 +68,7 @@ public class ObjectCreation : MonoBehaviour
 
     //------------------------------------------------------------------------------------------
 
-    void placeObject()
+    void placeObject(GameObject hitObject)
     {
         renderer.material = initialMat;
         renderer.material.SetColor("_Color", initialCol);
@@ -83,6 +83,13 @@ public class ObjectCreation : MonoBehaviour
             hj.connectedAnchor = hit.transform.InverseTransformPoint(transform.position);
             Vector3 fixedPosition = new Vector3(hj.connectedAnchor.x, hj.connectedAnchor.y, hj.connectedAnchor.z);
             hj.connectedAnchor = fixedPosition;
+        }
+
+        if(hitObject.tag=="Building/ServoBody")
+        {
+            Transform servoChild = hitObject.transform.Find("Servo").transform;
+            transform.parent = servoChild;
+            transform.localPosition = servoChild.localPosition + Vector3.forward*transform.localScale.z/2;
         }
     }
 

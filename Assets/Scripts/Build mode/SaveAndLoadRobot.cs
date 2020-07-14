@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 public class SaveAndLoadRobot : MonoBehaviour
 {
-    public GameObject block, motor;
+    public GameObject block, motor, servo;
     private string path;
     Transform robot;
+    public bool liveMode;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +35,13 @@ public class SaveAndLoadRobot : MonoBehaviour
                     }
                 case ("Building/Motor"):
                     {
-                        allComponents.motors.Add(new MotorAndWheel(component, 
+                        allComponents.motors.Add(new MotorAndWheel(component,
                             component.GetComponentInChildren<HingeJoint>().connectedAnchor));
+                        break;
+                    }
+                case ("Building/ServoBody"):
+                    {
+                        allComponents.servos.Add(new ServoClasss(component));
                         break;
                     }
             }
@@ -69,6 +75,11 @@ public class SaveAndLoadRobot : MonoBehaviour
         {
             GameObject newBlock = Instantiate(block);
             newBlock = handleTransformAndName(newBlock, blockComp.transformValues, blockComp.objectName);
+
+            if (!liveMode) continue;
+            var rb = newBlock.GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.isKinematic = false;
         }
 
         foreach (MotorAndWheel motorComp in components.motors)
@@ -77,19 +88,37 @@ public class SaveAndLoadRobot : MonoBehaviour
             newMotor = handleTransformAndName(newMotor, motorComp.transformValues, motorComp.objectName);
 
             string connectedBody;
-            if((connectedBody=motorComp.connectedBody)==null) continue;
+            if ((connectedBody = motorComp.connectedBody) == null) continue;
 
             HingeJoint hj = newMotor.GetComponentInChildren<HingeJoint>();
             hj.connectedBody = robot.Find(connectedBody).GetComponent<Rigidbody>();
             hj.connectedAnchor = motorComp.connectedAnchor;
+
+            if (!liveMode) continue;
+            hj.GetComponent<Collider>().isTrigger = false;
+        }
+
+        foreach (ServoClasss servoComp in components.servos)
+        {
+            GameObject newServo = Instantiate(servo);
+            newServo = handleTransformAndName(newServo, servoComp.transformValues, servoComp.objectName);
+
+            if (servoComp.child == null) continue;
+            GameObject newChild = Instantiate(block);
+            Destroy(newChild.GetComponent<ObjectCreation>());
+            newChild.transform.parent = newServo.transform.Find("Servo").transform;
+            newChild.transform.localPosition = servoComp.child.transformValues[0];
+            newChild.transform.eulerAngles = servoComp.child.transformValues[1];
+            newChild.transform.localScale = servoComp.child.transformValues[2];
+            newChild.name = servoComp.child.objectName;
         }
     }
 
     private GameObject handleTransformAndName(GameObject obj, Vector3[] transformValues, string name)
     {
-        Destroy(obj.GetComponent<ObjectCreation>());
         obj.transform.parent = robot;
-        obj.transform.position = transformValues[0];
+        Destroy(obj.GetComponent<ObjectCreation>());
+        obj.transform.localPosition = transformValues[0];
         obj.transform.eulerAngles = transformValues[1];
         obj.transform.localScale = transformValues[2];
         obj.name = name;
@@ -103,10 +132,12 @@ public class AllRobotComponents
 {
     public List<Block> blocks;
     public List<MotorAndWheel> motors;
+    public List<ServoClasss> servos;
     public AllRobotComponents()
     {
         blocks = new List<Block>();
         motors = new List<MotorAndWheel>();
+        servos = new List<ServoClasss>();
     }
 }
 public class Block
@@ -115,7 +146,7 @@ public class Block
     public string objectName;
     public Block(Transform transformComponent)
     {
-        transformValues[0] = transformComponent.position;
+        transformValues[0] = transformComponent.localPosition;
         transformValues[1] = transformComponent.eulerAngles;
         transformValues[2] = transformComponent.localScale;
         objectName = transformComponent.name;
@@ -134,18 +165,32 @@ public class Block
 
 public class MotorAndWheel : Block
 {
-    
+
     public string connectedBody;
     public Vector3 connectedAnchor;
     public MotorAndWheel(Transform transformComponent, Vector3 connectedAnchor) : base(transformComponent)
     {
         Rigidbody body;
-        if((body = transformComponent.GetComponentInChildren<HingeJoint>().connectedBody)!=null)
+        if ((body = transformComponent.GetComponentInChildren<HingeJoint>().connectedBody) != null)
             connectedBody = body.name;
         this.connectedAnchor = connectedAnchor;
     }
 
     public MotorAndWheel() { }
 
+}
+
+public class ServoClasss : Block
+{
+    public Block child;
+    public ServoClasss(Transform transformComponent) : base(transformComponent)
+    {
+        Transform servoTorque = transformComponent.GetComponentsInChildren<Transform>()[1];
+        Transform attachedObject = servoTorque.GetComponentsInChildren<Transform>()[1];
+        if (attachedObject == null) return;
+        child = new Block(attachedObject);
+    }
+
+    public ServoClasss() { }
 }
 

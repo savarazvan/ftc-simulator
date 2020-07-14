@@ -142,5 +142,7 @@ MonoBehaviour:
   validPlacements:
   - Building/Base
   - Building/Block
+  - Building/Servo
+  - Building/ServoBody
   resizable: 1
   rotateable: 1

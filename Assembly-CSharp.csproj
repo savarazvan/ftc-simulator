@@ -42,6 +42,7 @@
      <Compile Include="Assets\Scripts\Build mode\ObjectProprieties.cs" />
      <Compile Include="Assets\Scripts\Build mode\ProgrammingControls.cs" />
      <Compile Include="Assets\Scripts\Build mode\SaveAndLoadRobot.cs" />
+     <Compile Include="Assets\Scripts\Build mode\Servo.cs" />
      <Compile Include="Assets\Scripts\Build mode\ToolbarButton.cs" />
      <Compile Include="Assets\Scripts\Live mode\CombinedMouseLookAndCameraMove.cs" />
      <Compile Include="Assets\Scripts\Live mode\Raycaster.cs" />
