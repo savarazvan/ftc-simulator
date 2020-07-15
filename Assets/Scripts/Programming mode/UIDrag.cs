@@ -8,7 +8,7 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
     Vector3 diffPosition;
     GameObject canvas_;
     GameObject panelGhost;
-    public float separator;
+    public static float separator;
 
     Color color, newColor;
 
@@ -65,7 +65,6 @@ public class UIDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClic
     {
         canvas_ = GameObject.Find("Robot programming");
         panelGhost = GameObject.Find("Panel ghost");
-        separator = GameObject.Find("Separator").GetComponent<RectTransform>().localPosition.x;
         color = GetComponent<Image>().color;
         newColor = new Color(255, 0, 0, 1);
     }

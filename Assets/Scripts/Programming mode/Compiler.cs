@@ -69,6 +69,13 @@ public class Compiler : MonoBehaviour
                             StartCoroutine(generateCode(child));
                         break;
                     }
+
+                case ("Sleep"):
+                    {
+                        yield return new WaitForSeconds
+                            (float.Parse(child.GetComponentInChildren<InputField>().text));
+                        break;
+                    }
             }
         }
         yield return true;
@@ -253,17 +260,22 @@ public class Compiler : MonoBehaviour
                 }
 
             case "Set all motors power":
-            {
-                Motor[] motors = GameObject.FindObjectsOfType<Motor>();
-                foreach(Motor motor in motors)
-                    motor.setPower(value);
-
-                break;
-            }
-
-            case "Sleep":
                 {
-                    sleep(value);
+                    Motor[] motors = GameObject.FindObjectsOfType<Motor>();
+                    foreach (Motor motor in motors)
+                        motor.setPower(value);
+
+                    break;
+                }
+
+            case "Set servo rotation":
+                {
+                    value = func.GetComponentInChildren<Slider>().value;
+                    Dropdown dropdown = func.GetComponentInChildren<Dropdown>();
+                    ComponentsDropdown componentsDropdown = dropdown.GetComponent<ComponentsDropdown>();
+                    GameObject selectedServo = componentsDropdown.dictionary[dropdown.value];
+                    selectedServo.GetComponent<Servo>().degree = (Int32)value;
+
                     break;
                 }
         }
@@ -275,11 +287,6 @@ public class Compiler : MonoBehaviour
             return true;
         return false;
     }
-    IEnumerator sleep(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-    }
-
 }
 
 

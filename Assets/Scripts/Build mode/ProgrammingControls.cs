@@ -1,17 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 public class ProgrammingControls : MonoBehaviour
 {
-    public GameObject programmingUI, buildUI;
+    public Canvas programmingUI, buildUI;
 
+    private void Start() {
+        UIDrag.separator = programmingUI.transform.Find
+            ("Separator").GetComponent<RectTransform>().localPosition.x;
+        programmingUI.enabled=false;
+        buildUI.enabled=true;    
+    }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            programmingUI.SetActive(!programmingUI.activeSelf);
-            buildUI.SetActive(!buildUI.activeSelf);
-        }        
+            programmingUI.enabled = !programmingUI.enabled;
+            buildUI.enabled = !buildUI.enabled;
+        }
     }
 }

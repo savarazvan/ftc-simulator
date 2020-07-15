@@ -17,6 +17,7 @@ TagManager:
   - Fence
   - Building/ServoBody
   - Building/Servo
+  - Sleep
   layers:
   - Default
   - TransparentFX
