@@ -15,6 +15,7 @@ public class Compiler : MonoBehaviour
     private string lastMessage = null;
     Dictionary<string, int> intVars;
     Dictionary<string, float> floatVars;
+    public bool isActive = false;
 
     void Start()
     { }
@@ -22,7 +23,8 @@ public class Compiler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) run();
+        if (Input.GetKeyDown(KeyCode.Space)) isActive = !isActive;
+        if (isActive) run();
     }
 
     public void run()
@@ -35,6 +37,7 @@ public class Compiler : MonoBehaviour
 
     public IEnumerator generateCode(Transform obj)
     {
+        isActive = false;
         foreach (Transform child in obj)
         {
             switch (child.tag)
@@ -76,8 +79,14 @@ public class Compiler : MonoBehaviour
                             (float.Parse(child.GetComponentInChildren<InputField>().text));
                         break;
                     }
+                case ("Input"):
+                    {
+                        handleInput(child);
+                        break;
+                    }
             }
         }
+        isActive = true;
         yield return true;
     }
 
@@ -281,6 +290,21 @@ public class Compiler : MonoBehaviour
         }
     }
 
+    public void handleInput(Transform input)
+    {
+        string type = input.GetComponentInChildren<Text>().text;
+        if(type=="Keyboard input")
+        {
+            Dropdown dropdown = input.GetComponentInChildren<Dropdown>();
+            string key = dropdown.options[dropdown.value].text;
+            string var = input.GetComponentInChildren<InputField>().text;
+            
+            if(intVars.ContainsKey(var))
+                intVars[var]=Input.GetKeyDown(key) ? 1 : 0;
+            else
+                intVars.Add(var,Input.GetKeyDown(key) ? 1 : 0);
+        }
+    }
     public bool getVarType(string var)
     {
         if (intVars.ContainsKey(var))

@@ -9,7 +9,7 @@ public class Motor : MonoBehaviour
     public void setPower(float power)
     {
         var motor = hj.motor;
-        motor.force = power;
+        motor.force = Mathf.Abs(power);
         motor.targetVelocity = power;
         hj.motor=motor;
     }

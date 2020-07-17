@@ -18,6 +18,7 @@ TagManager:
   - Building/ServoBody
   - Building/Servo
   - Sleep
+  - Input
   layers:
   - Default
   - TransparentFX

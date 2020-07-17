@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Programming mode\Compiler.cs" />
      <Compile Include="Assets\Scripts\Programming mode\ComponentsDropdown.cs" />
      <Compile Include="Assets\Scripts\Programming mode\GenerateCode.cs" />
+     <Compile Include="Assets\Scripts\Programming mode\PopulateInputKeys.cs" />
      <Compile Include="Assets\Scripts\Programming mode\SliderAndInputField.cs" />
      <Compile Include="Assets\Scripts\Programming mode\TabSelect.cs" />
      <Compile Include="Assets\Scripts\Programming mode\UIDrag.cs" />

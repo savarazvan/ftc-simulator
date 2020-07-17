@@ -26,6 +26,8 @@ public class TabSelect : MonoBehaviour
             selectTab(3);
         if (Input.GetKeyDown(KeyCode.Alpha5))
             selectTab(4);
+        if(Input.GetKeyDown(KeyCode.Alpha6))
+            selectTab(5);
     }
 
     void selectTab(int tab)
