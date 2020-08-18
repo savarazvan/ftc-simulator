@@ -254,7 +254,13 @@ public class Compiler : MonoBehaviour
     public void handleRobotFunc(Transform func)
     {
         string type = func.Find("Text").GetComponent<Text>().text;
-        float value = float.Parse(func.GetComponentInChildren<InputField>().text);
+        string inputText = func.GetComponentInChildren<InputField>().text;
+        float value;
+        if(floatVars.ContainsKey(inputText))
+            value = floatVars[inputText];
+        else if(intVars.ContainsKey(inputText))
+            value = intVars[inputText];
+        else value = float.Parse(inputText);
 
         switch (type)
         {
@@ -293,17 +299,46 @@ public class Compiler : MonoBehaviour
     public void handleInput(Transform input)
     {
         string type = input.GetComponentInChildren<Text>().text;
-        if(type=="Keyboard input")
+        switch (type)
         {
-            Dropdown dropdown = input.GetComponentInChildren<Dropdown>();
-            string key = dropdown.options[dropdown.value].text;
-            string var = input.GetComponentInChildren<InputField>().text;
-            
-            if(intVars.ContainsKey(var))
-                intVars[var]=Input.GetKeyDown(key) ? 1 : 0;
-            else
-                intVars.Add(var,Input.GetKeyDown(key) ? 1 : 0);
+            case "Keyboard input":
+                {
+                    Dropdown dropdown = input.GetComponentInChildren<Dropdown>();
+                    string key = dropdown.options[dropdown.value].text;
+                    string var = input.GetComponentInChildren<InputField>().text;
+
+                    if (intVars.ContainsKey(var))
+                        intVars[var] = Input.GetKeyDown(key) ? 1 : 0;
+                    else
+                        intVars.Add(var, Input.GetKeyDown(key) ? 1 : 0);
+                    break;
+                }
+            case "Gamepad input":
+                {
+                    Dropdown dropdown = input.GetComponentInChildren<Dropdown>();
+                    string key = dropdown.options[dropdown.value].text;
+                    string var = input.GetComponentInChildren<InputField>().text;
+
+                    if (intVars.ContainsKey(var))
+                        intVars[var] = Input.GetButtonDown(key) ? 1 : 0;
+                    else
+                        intVars.Add(var, Input.GetButtonDown(key) ? 1 : 0);
+                    break;
+                }
+            case "Gamepad axis":
+                {
+                    Dropdown dropdown = input.GetComponentInChildren<Dropdown>();
+                    string key = dropdown.options[dropdown.value].text;
+                    string var = input.GetComponentInChildren<InputField>().text;
+                    if (floatVars.ContainsKey(var))
+                        floatVars[var] = Input.GetAxis(key);
+                    else
+                        floatVars.Add(var, Input.GetAxis(key));
+                    break;
+                }
         }
+
+
     }
     public bool getVarType(string var)
     {
